@@ -1,7 +1,9 @@
-﻿using FxNet.Test.Domain.Entities;
+﻿using FxNet.Test.Contracts;
+using FxNet.Test.Domain.Entities;
 using FxNet.Test.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 
 namespace FxNet.Test.Api.Controllers;
@@ -16,17 +18,24 @@ public class TreeNodeController : ControllerBase
         _db = db;
     }
 
+    [Authorize]
+    [HttpGet("/api.user.tree.node.secure")]
+    public IActionResult Secure()
+    {
+        return Ok("Authorized");
+    }
+
     [HttpPost("/api.user.tree.node.create")]
     [Authorize]
     public async Task<IActionResult> Create(
         [FromQuery] string treeName,
-        [FromQuery] long? parentNodeId,
-        [FromQuery] string nodeName)
+        [FromQuery] string nodeName,
+        [FromQuery] long? parentNodeId)
     {
         if (string.IsNullOrWhiteSpace(treeName))
-            throw new SecureValidationException("treeName is required");
+            throw new SecureValidationException("Tree Name is required");
         if (string.IsNullOrWhiteSpace(nodeName))
-            throw new SecureValidationException("nodeName is required");
+            throw new SecureValidationException("Node Name is required");
 
         var tree = await _db.Trees.FirstOrDefaultAsync(t => t.Name == treeName);
         if (tree == null)
@@ -40,7 +49,7 @@ public class TreeNodeController : ControllerBase
         if (parentNodeId.HasValue)
         {
             parent = await _db.TreeNodes
-                .FirstOrDefaultAsync(n => n.Id == parentNodeId.Value && n.TreeId == tree.Id);
+                .FirstOrDefaultAsync(n => n.Id == parentNodeId && n.TreeId == tree.Id);
 
             if (parent == null)
                 throw new SecureException("Parent node does not belong to this tree");

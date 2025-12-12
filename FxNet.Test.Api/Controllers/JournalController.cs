@@ -22,7 +22,7 @@ public class JournalController : ControllerBase
     public async Task<MRange<MJournalInfo>> GetRange(
         [FromQuery] int skip,
         [FromQuery] int take,
-        [FromBody] VJournalFilter? filter)
+        [FromBody] MJournalFilter? filter)
     {
         var query = _db.JournalEntries.AsQueryable();
 

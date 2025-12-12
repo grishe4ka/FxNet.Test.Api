@@ -1,8 +1,9 @@
-using System.Text;
 using FxNet.Test.Api.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace FxNet.Test.Api
 {
@@ -18,10 +19,38 @@ namespace FxNet.Test.Api
             });
 
             builder.Services.AddControllers();
+
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
             // JWT
+            //builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Enter JWT token here",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+            });
+
             var jwtSection = builder.Configuration.GetSection("Jwt");
             var key = Encoding.UTF8.GetBytes(jwtSection["Key"]!);
 
@@ -37,7 +66,7 @@ namespace FxNet.Test.Api
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
-                        ValidateLifetime = false // в демо можно выключить
+                        ValidateLifetime = false
                     };
                 });
 

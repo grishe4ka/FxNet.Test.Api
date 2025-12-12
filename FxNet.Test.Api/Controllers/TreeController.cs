@@ -1,4 +1,6 @@
 ﻿using FxNet.Test.Contracts;
+using FxNet.Test.Domain.Entities;
+using FxNet.Test.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +22,9 @@ public class TreeController : ControllerBase
     public async Task<MNode?> Get([FromQuery] string treeName)
     {
         if (string.IsNullOrWhiteSpace(treeName))
-            throw new Exception("treeName is required"); // можно сделать SecureValidationException
+        {
+            throw new SecureValidationException("treeName is required");
+        }
 
         var tree = await _db.Trees
             .Include(t => t.Nodes)
@@ -42,7 +46,7 @@ public class TreeController : ControllerBase
         {
             return null;
         }
-        
+
         MNode Map(Domain.Entities.TreeNode n) => new()
         {
             Id = n.Id,
@@ -55,4 +59,5 @@ public class TreeController : ControllerBase
 
         return Map(rootNodes.Single());
     }
+
 }

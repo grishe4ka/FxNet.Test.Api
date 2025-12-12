@@ -20,7 +20,7 @@ namespace FxNet.Test.Domain.Entities
 
         public string Name { get; set; } = null!;
 
-        // Пример поля для независимости деревьев (например, владелец дерева)
+        //для независимости деревьев
         public Guid OwnerId { get; set; }
     }
 }

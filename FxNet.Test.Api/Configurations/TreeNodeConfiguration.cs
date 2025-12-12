@@ -24,6 +24,6 @@ public class TreeNodeConfiguration : IEntityTypeConfiguration<TreeNode>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(n => new { n.TreeId, n.ParentId, n.Name })
-            .IsUnique(); // уникальность имени среди siblings
+            .IsUnique();
     }
 }

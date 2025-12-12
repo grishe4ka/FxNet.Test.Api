@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FxNet.Test.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251211174401_Init")]
+    [Migration("20251212143125_Init")]
     partial class Init
     {
         /// <inheritdoc />

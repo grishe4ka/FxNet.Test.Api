@@ -10,7 +10,7 @@ namespace FxNet.Test.Domain.Entities
     {
         public long Id { get; set; }
 
-        public string Name { get; set; } = null!; // treeName из API, уникальное
+        public string Name { get; set; } = null!;
 
         public ICollection<TreeNode> Nodes { get; set; } = new List<TreeNode>();
     }
