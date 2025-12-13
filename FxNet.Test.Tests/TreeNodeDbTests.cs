@@ -7,7 +7,7 @@ using Xunit;
 
 namespace FxNet.Test.Tests;
 
-public class TreeNodeTests
+public class TreeNodeDbTests
 {
     private AppDbContext CreateDbContext()
     {
@@ -17,10 +17,9 @@ public class TreeNodeTests
 
         return new AppDbContext(options);
     }
-    
-    /*
+
     [Fact]
-    public async Task CreateNode_Should_EnforceSiblingNameUniqueness()
+    public async Task CreateNode_Success()
     {
         using var db = CreateDbContext();
 
@@ -28,20 +27,20 @@ public class TreeNodeTests
         db.Trees.Add(tree);
         await db.SaveChangesAsync();
 
-        var parent = new TreeNode { TreeId = tree.Id, Name = "root", OwnerId = Guid.NewGuid() };
-        db.TreeNodes.Add(parent);
+        var rootNode = new TreeNode { TreeId = tree.Id, Name = "root", OwnerId = Guid.NewGuid() };
+        db.TreeNodes.Add(rootNode);
         await db.SaveChangesAsync();
 
-        var child1 = new TreeNode { TreeId = tree.Id, ParentId = parent.Id, Name = "child", OwnerId = Guid.NewGuid() };
+        var child1 = new TreeNode { TreeId = tree.Id, ParentId = rootNode.Id, Name = "child", OwnerId = Guid.NewGuid() };
         db.TreeNodes.Add(child1);
         await db.SaveChangesAsync();
 
-        var child2 = new TreeNode { TreeId = tree.Id, ParentId = parent.Id, Name = "child", OwnerId = Guid.NewGuid() };
-        db.TreeNodes.Add(child2);
-
-        await Assert.ThrowsAsync<DbUpdateException>(() => db.SaveChangesAsync());
+        Assert.True(db.Trees.Count() == 1);
+        Assert.NotNull(db.TreeNodes.FirstOrDefault(n => n.Name == "root"
+            && n.TreeId == tree.Id));
+        Assert.NotNull(db.TreeNodes.FirstOrDefault(n => n.Name == "child" 
+            && n.TreeId == tree.Id && n.ParentId == rootNode.Id));
     }
-    */
 
     [Fact]
     public async Task DeleteNode_Should_DeleteDescendants()
@@ -65,6 +64,40 @@ public class TreeNodeTests
 
         Assert.Empty(db.TreeNodes);
     }
+
+    /*
+    [Fact]
+    public async Task CreateNode_Should_EnforceSiblingNameUniqueness()
+    {
+        using var db = CreateDbContext();
+
+        var tree = new Tree { Name = "TestTree" };
+        db.Trees.Add(tree);
+        await db.SaveChangesAsync();
+
+        var rootNode = new TreeNode { TreeId = tree.Id, Name = "root", OwnerId = Guid.NewGuid() };
+        db.TreeNodes.Add(rootNode);
+        await db.SaveChangesAsync();
+
+        var child1 = new TreeNode { TreeId = tree.Id, ParentId = rootNode.Id, Name = "child", OwnerId = Guid.NewGuid() };
+        db.TreeNodes.Add(child1);
+        await db.SaveChangesAsync();
+
+        var child2 = new TreeNode { TreeId = tree.Id, ParentId = rootNode.Id, Name = "child", OwnerId = Guid.NewGuid() };
+        db.TreeNodes.Add(child2);
+
+        try
+        {
+            await db.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            var exType = ex.GetType();
+        }
+
+        await Assert.ThrowsAsync<DbUpdateException>(() => db.SaveChangesAsync());
+    }
+    */
 
     /*
     [Fact]

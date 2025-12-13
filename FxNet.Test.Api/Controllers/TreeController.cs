@@ -57,7 +57,10 @@ public class TreeController : ControllerBase
                 .ToList()
         };
 
-        return Map(rootNodes.Single());
+        //if Count > 1 exception will be thrown => JournalEntries
+        var rootNode = rootNodes.Single();
+
+        return Map(rootNode);
     }
 
 }
