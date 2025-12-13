@@ -1,4 +1,4 @@
-﻿using FxNet.Test.Contracts;
+﻿using FxNet.Test.Model;
 using FxNet.Test.Domain.Entities;
 using FxNet.Test.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -57,7 +57,10 @@ public class TreeController : ControllerBase
                 .ToList()
         };
 
-        return Map(rootNodes.Single());
+        //if Count > 1 exception will be thrown => JournalEntries
+        var rootNode = rootNodes.Single();
+
+        return Map(rootNode);
     }
 
 }

@@ -1,4 +1,4 @@
-﻿using FxNet.Test.Contracts;
+﻿using FxNet.Test.Model;
 using FxNet.Test.Domain.Entities;
 using FxNet.Test.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;

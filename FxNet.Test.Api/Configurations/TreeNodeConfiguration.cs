@@ -22,8 +22,11 @@ public class TreeNodeConfiguration : IEntityTypeConfiguration<TreeNode>
             .WithMany(p => p.Children)
             .HasForeignKey(n => n.ParentId)
             .OnDelete(DeleteBehavior.Cascade);
-
+        /*
         builder.HasIndex(n => new { n.TreeId, n.ParentId, n.Name })
+            .IsUnique();
+        */
+        builder.HasIndex(n => n.Name)
             .IsUnique();
     }
 }
