@@ -8,7 +8,8 @@ This project is a REST API on ASP.NET Core 8 using PostgreSQL (code-first approa
 - Entity Framework Core
 - PostgreSQL
 - JWT (JSON Web Tokens)
-- xUnit (unit tests only prepared)
+- xUnit (unit tests only templates prepared)
+- xUnit FxNet.Test.IntegrationTests (run Docker Desktop to run integration tests)
 - DB Seeder (only prepared)
 
 ## Launch

@@ -22,8 +22,8 @@ namespace FxNet.Test.IntegrationTests
         [Fact]
         public async Task RememberMe_ReturnsToken()
         {
-            var code = "my_ultra_secure_secret_key_grisha_!!!";
-
+            //var code = "my_ultra_secure_secret_key_grisha_!!!";
+            var code = TestHelper.TokenCode;
             var response = await _client.PostAsync($"/api.user.partner.rememberMe?code={code}", null);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -18,7 +18,7 @@ namespace FxNet.Test.IntegrationTests
         public ApiFactory()
         {
             _dbContainer = new PostgreSqlBuilder()
-                .WithDatabase("fxnet_db_for_tests")
+                .WithDatabase("fxnet_test")
                 .WithUsername("postgres")
                 .WithPassword("1111")
                 .Build();
