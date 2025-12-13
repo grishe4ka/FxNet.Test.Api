@@ -1,8 +1,8 @@
 ﻿
 
-namespace FxNet.Test.Contracts
+namespace FxNet.Test.View
 {
-    public class MJournalFilter
+    public class VJournalFilter
     {
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }

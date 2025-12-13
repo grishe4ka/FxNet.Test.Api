@@ -1,4 +1,5 @@
-﻿using FxNet.Test.Contracts;
+﻿using FxNet.Test.Model;
+using FxNet.Test.View;
 using FxNet.Test.Domain.Exceptions;
 using FxNet.Test.Api;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +20,10 @@ public class JournalController : ControllerBase
 
     [HttpPost("/api.user.journal.getRange")]
     [Authorize]
-    public async Task<MRange<MJournalInfo>> GetRange(
+    public async Task<MRange_MJournalInfo<MJournalInfo>> GetRange(
         [FromQuery] int skip,
         [FromQuery] int take,
-        [FromBody] MJournalFilter? filter)
+        [FromBody] VJournalFilter? filter)
     {
         var query = _db.JournalEntries.AsQueryable();
 
@@ -48,7 +49,7 @@ public class JournalController : ControllerBase
             })
             .ToListAsync();
 
-        return new MRange<MJournalInfo>
+        return new MRange_MJournalInfo<MJournalInfo>
         {
             Skip = skip,
             Count = total,

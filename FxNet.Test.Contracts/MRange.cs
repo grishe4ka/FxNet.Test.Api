@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FxNet.Test.Contracts
+namespace FxNet.Test.Model
 {
-    public class MRange<T>
+    public class MRange_MJournalInfo<T>
     {
         public int Skip { get; set; }
         public int Count { get; set; }

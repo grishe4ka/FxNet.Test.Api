@@ -1,6 +1,6 @@
 ﻿
 
-namespace FxNet.Test.Contracts
+namespace FxNet.Test.Model
 {
     public class MJournal
     {
