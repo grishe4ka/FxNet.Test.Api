@@ -19,7 +19,8 @@ public class TreeController : ControllerBase
 
     [HttpPost("/api.user.tree.get")]
     [Authorize]
-    public async Task<MNode?> Get([FromQuery] string treeName)
+    //public async Task<MNode?> Get([FromQuery] string treeName)
+    public async Task<IActionResult> Get([FromQuery] string treeName)
     {
         if (string.IsNullOrWhiteSpace(treeName))
         {
@@ -35,6 +36,7 @@ public class TreeController : ControllerBase
             tree = new Domain.Entities.Tree { Name = treeName };
             _db.Trees.Add(tree);
             await _db.SaveChangesAsync();
+            return Created();
         }
 
         var nodes = await _db.TreeNodes
@@ -44,7 +46,9 @@ public class TreeController : ControllerBase
         var rootNodes = nodes.Where(n => n.ParentId == null).ToList();
         if (!rootNodes.Any())
         {
-            return null;
+            //return null;
+            //var res = new MNode { Id = tree.Id, Name = tree.Name };
+            return Created();
         }
 
         MNode Map(Domain.Entities.TreeNode n) => new()
@@ -60,7 +64,8 @@ public class TreeController : ControllerBase
         //if Count > 1 exception will be thrown => JournalEntries
         var rootNode = rootNodes.Single();
 
-        return Map(rootNode);
+        //return Map(rootNode);
+        return (IActionResult)Map(rootNode);
     }
 
 }
