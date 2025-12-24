@@ -1,4 +1,5 @@
-# FxNet Test Backend (ASP.NET Core 8)
+# FxNet Test Backend (ASP.NET Core 8, PostgreSQL)
+
 
 ## Description
 This project is a REST API on ASP.NET Core 8 using PostgreSQL (code-first approach, EF Core).
